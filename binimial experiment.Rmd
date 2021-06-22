@@ -1,0 +1,70 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r, include=F}
+rm(list=ls())
+```
+
+
+```{r}
+class.size <- 21
+
+# number of susceptible students on a given day as m
+m <-19
+
+# Binomial probability as a function of n infected that day
+pro <- (class.size - m) * 0.02 
+
+reps <- 10000
+
+ranny <- numeric(reps)
+
+# Simulate by running n bernoulli(0.02) trials per student in m
+# if any of a given student's trials are positive, add 1 to infection total for
+# that rep
+for (i in 1:reps){
+  total <- 0
+  for (k in 1:m){
+    tries <- runif((class.size-m))
+    total <- total + (1*any(tries <= 0.02))
+  }
+  ranny[i] <- total
+}
+
+plot(dbinom(0:m, m, pro), type='h')
+points((tabulate(ranny)/reps), col='red')
+# tabulate counts the integers by value. Dividing by total number of values 
+# gives the probability, thus making a simulated pdf.
+
+
+```
+
+```{r}
+# same thing again, but with a different value of m to show 
+# the divergence
+
+m <-16
+
+pro <- (class.size - m) * 0.02 
+
+reps <- 10000
+
+ranny <- numeric(reps)
+
+
+for (i in 1:reps){
+  total <- 0
+  for (k in 1:m){
+    tries <- runif((class.size-m))
+    total <- total + (1*any(tries <= 0.02))
+  }
+  ranny[i] <- total
+}
+
+plot(dbinom(0:m, m, pro), type='h')
+points((tabulate(ranny)/reps), col='red')
+
+
+```
+
