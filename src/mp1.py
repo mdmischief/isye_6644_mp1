@@ -7,6 +7,7 @@ import argparse
 import pathlib
 
 fig_dir = pathlib.Path('..')/ 'figs'
+fig_dir.mkdir(parents=True, exist_ok=True)
 
 parser=argparse.ArgumentParser(
     prog='mp1.py'
@@ -234,7 +235,7 @@ def main():
     plt.title(title)
     plt.xlabel('Days')
     plt.ylabel('Episodes')
-    # plt.savefig(fig_dir / f'Flu_Pandemic_means_{eps}.png')
+    plt.savefig(fig_dir / f'Flu_Pandemic_means_{eps}.png')
     plt.show()
 
 if __name__ == "__main__":
