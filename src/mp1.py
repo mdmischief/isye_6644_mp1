@@ -229,5 +229,13 @@ def main():
     plt.savefig(fig_dir / f'Flu_Pandemic_Fig1_smallbins_{eps}.png')
     plt.show()
 
+    title = f'Line Chart of Days the Epidemic Lasted\n {eps:,} Episodes. Mean = {round(epidem_lens.mean(), 2)} days, Median = {median(epidem_lens)} days'
+    plt.plot(expected_df['Mean'])
+    plt.title(title)
+    plt.xlabel('Days')
+    plt.ylabel('Episodes')
+    # plt.savefig(fig_dir / f'Flu_Pandemic_means_{eps}.png')
+    plt.show()
+
 if __name__ == "__main__":
     main()
