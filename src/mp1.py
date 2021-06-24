@@ -86,9 +86,6 @@ n_days=args['n_days']
 p=args['p']
 n_days_infectious=args['n_days_infectious']
 
-print(type(weekend_check))
-print(weekend_check)
-
 #
 # stu_array: Infected: bool, 0 = No, 1 = Yes
 #            Days infected: int, -1,0,1,2,3,4...
