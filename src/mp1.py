@@ -163,7 +163,7 @@ def main():
     episodes = 0
     np.random.seed(2**23 - 1)
     while episodes < eps: # Each loop sims 1 episode
-        day_results[episodes] = episode()
+        day_results[episodes] = episode(p)
         episodes += 1
 
     # Calculate and print stats
@@ -187,16 +187,17 @@ def main():
     print(expected_df)
 
     # Part C - Day 2 Expected Value
-    n = n_students - 1
-
+    n = 20
     r_values = list(range(n + 1)) # Possible numbers infected on day 1
-    dist1 = [binom.pmf(r, n, p) for r in r_values] # Day 1
+    dist1 = [binom.pmf(r, n, 0.02) for r in r_values] # Day 1
     probs = np.zeros(20)
     for day1 in r_values:
-        p2 = p * (1 + day1)
-        dist2 = [binom.pmf(r, n-day1, p2) for r in r_values] # Day 2 given day 1
+        p3 = 0.02 * (1 + day1)
+        dist2 = [binom.pmf(r, n-day1, p3) for r in r_values] # Day 2 given day 1
+        #print(dist2)
         for x in range(len(dist2)):
             total = x + day1
+            #print('Total', day1, x, dist1[day1], dist2[x])
             if total < 20:
                 probs[total] += dist1[day1] * dist2[x]
 
