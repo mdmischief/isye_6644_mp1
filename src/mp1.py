@@ -240,7 +240,7 @@ def main():
     plt.savefig(fig_dir / f'Flu_Pandemic_Fig1_smallbins_{eps}_weekend_{weekend_check}.png')
     plt.show()
 
-    title = f'Line Chart of Mean Infections by Days\n {eps:,} Episodes. Mean = {round(expected_df["Mean"].mean(), 2)} days, Median = {median(expected_df["Mean"])} days'
+    title = f'Line Chart of Mean Cumulative Infections\n {eps:,} Episodes. Mean = {round(expected_df["Mean"].mean(), 2)} infections, Median = {round(median(expected_df["Mean"]), 2)} infections'
     plt.plot(expected_df['Mean'])
     plt.title(title)
     plt.xlabel('Days')
