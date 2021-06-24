@@ -132,7 +132,7 @@ def episode():
     day = 0
     infected = 1
     while contagious and day < n_days: # Each loop sims 1 day
-        stu_array, new_infections = sim_day(stu_array, infections[-1])
+        stu_array, new_infections = sim_day(stu_array, infections[-1], day)
         infected += new_infections
         infections[day] = infected
 
@@ -211,7 +211,7 @@ def main():
     plt.xlim(left=1, right=9)
     plt.xlabel('Infections')
     plt.ylabel('Probability')
-    plt.savefig(fig_dir / f'Flu_Pandemic_Fig2_{eps}.png')
+    plt.savefig(fig_dir / f'Flu_Pandemic_Fig2_{eps}_weekend_{weekend_check}.png')
     plt.show()
 
     title = f'Histogram of First Two Days of Pandemic (Empirical)\n {eps:,} Episodes. Mean = {round(expected_values[1], 2)} days'
@@ -220,7 +220,7 @@ def main():
     plt.xlim(left=1, right=9)
     plt.xlabel('Infections')
     plt.ylabel('Probability')
-    plt.savefig(fig_dir / f'Flu_Pandemic_Fig3_{eps}.png')
+    plt.savefig(fig_dir / f'Flu_Pandemic_Fig3_{eps}_weekend_{weekend_check}.png')
     plt.show()
 
     # Part D - Histogram
@@ -229,7 +229,7 @@ def main():
     plt.title(title)
     plt.xlabel('Days')
     plt.ylabel('Episodes')
-    plt.savefig(fig_dir / f'Flu_Pandemic_Fig1_{eps}.png')
+    plt.savefig(fig_dir / f'Flu_Pandemic_Fig1_{eps}_weekend_{weekend_check}.png')
     plt.show()
 
     title = f'Histogram of Days the Epidemic Lasted\n {eps:,} Episodes. Mean = {round(epidem_lens.mean(), 2)} days, Median = {median(epidem_lens)} days'
@@ -237,15 +237,15 @@ def main():
     plt.title(title)
     plt.xlabel('Days')
     plt.ylabel('Episodes')
-    plt.savefig(fig_dir / f'Flu_Pandemic_Fig1_smallbins_{eps}.png')
+    plt.savefig(fig_dir / f'Flu_Pandemic_Fig1_smallbins_{eps}_weekend_{weekend_check}.png')
     plt.show()
 
-    title = f'Line Chart of Days the Epidemic Lasted\n {eps:,} Episodes. Mean = {round(epidem_lens.mean(), 2)} days, Median = {median(epidem_lens)} days'
+    title = f'Line Chart of Mean Infections by Days\n {eps:,} Episodes. Mean = {round(epidem_lens.mean(), 2)} days, Median = {median(epidem_lens)} days'
     plt.plot(expected_df['Mean'])
     plt.title(title)
     plt.xlabel('Days')
-    plt.ylabel('Episodes')
-    plt.savefig(fig_dir / f'Flu_Pandemic_means_{eps}.png')
+    plt.ylabel('Mean Infections')
+    plt.savefig(fig_dir / f'Flu_Pandemic_means_{eps}_weekend_{weekend_check}.png')
     plt.show()
 
 if __name__ == "__main__":
