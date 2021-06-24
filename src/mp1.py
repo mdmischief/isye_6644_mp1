@@ -6,7 +6,7 @@ from statistics import median
 import argparse
 import pathlib
 
-fig_dir = pathlib.Path.cwd().parents[0] / 'figs'
+fig_dir = pathlib.Path('..')/ 'figs'
 
 parser=argparse.ArgumentParser(
     prog='mp1.py'
