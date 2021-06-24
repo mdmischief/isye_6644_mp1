@@ -9,6 +9,16 @@ import pathlib
 fig_dir = pathlib.Path.cwd() / 'figs'
 fig_dir.mkdir(parents=True, exist_ok=True)
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
 parser=argparse.ArgumentParser(
     prog='mp1.py'
     ,description='ISYE 6644 MiniProject1 - Flu.'
@@ -27,7 +37,7 @@ parser.add_argument(
     ,"--weekend_check"
     ,required=False
     ,help="Account for no school on Weekends"
-    ,type=bool
+    ,type=str2bool
     ,dest='weekend_check'
     ,default=True
 )
@@ -76,6 +86,9 @@ n_days=args['n_days']
 p=args['p']
 n_days_infectious=args['n_days_infectious']
 
+print(type(weekend_check))
+print(weekend_check)
+
 #
 # stu_array: Infected: bool, 0 = No, 1 = Yes
 #            Days infected: int, -1,0,1,2,3,4...
@@ -89,11 +102,11 @@ def sim_day(students, infects, day=0):
                 infects: number of students who've been infected of type int
         Returns: students, infects
     """
-    if weekend_check is True and day != 0 and (day+1) % 6 == 0:
+    if weekend_check and day != 0 and (day+1) % 6 == 0:
         #do nothing
         # print(f'Day = {day}: 6 do nothing')
         pass
-    elif weekend_check is True and day != 0 and (day+1) % 7 == 0:
+    elif weekend_check and day != 0 and (day+1) % 7 == 0:
         #do nothing
         # print(f'Day = {day}: 7 do nothing')
         pass
