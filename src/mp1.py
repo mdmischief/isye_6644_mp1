@@ -93,7 +93,7 @@ n_days_infectious=args['n_days_infectious']
 stu_array = np.array([[1, 1]] + [[0, 0]]*(n_students - 1))
 infections = np.array([1]) # Array to track the number infected per day. Update upon a new infection.
 
-def sim_day(students, infects, day=0):
+def sim_day(students, infects, day=0, p=0.02):
     """Simulates a day at school and the infections that may occur.
         Given: students: stu_array of type np.array;
                 infects: number of students who've been infected of type int
@@ -119,7 +119,7 @@ def sim_day(students, infects, day=0):
                             infects += 1
     return students, infects
 
-def episode():
+def episode(p=0.02):
     """One episode simulates the virus, beginning with Tommy, spreading in a classroom until the virus infects everyone
      or no one is contagious.
         Returns: infections - np array containing number infected by each day"""
@@ -132,7 +132,7 @@ def episode():
     day = 0
     infected = 1
     while contagious and day < n_days: # Each loop sims 1 day
-        stu_array, new_infections = sim_day(stu_array, infections[-1], day)
+        stu_array, new_infections = sim_day(stu_array, infections[-1], day, p)
         infected += new_infections
         infections[day] = infected
 
@@ -183,8 +183,7 @@ def main():
     # n_days = 41
     expected_df = pd.DataFrame(list(range(1, n_days+1)), columns=["Day"])
     expected_df['Mean'] = expected_values[:n_days]
-    #save_table(expected_df, f'Expected Number of Infected Students Per Day\nMonte Carlo with {eps} Simulations', 'day_means')
-    #from IPython.display import display
+
     print(expected_df)
 
     # Part C - Day 2 Expected Value
@@ -201,6 +200,12 @@ def main():
             if total < 20:
                 probs[total] += dist1[day1] * dist2[x]
 
+    probs_row = [[probs[0]], [probs[1]], [probs[2]], [probs[3]], [probs[4]], [probs[5]], [probs[6]], [probs[7]], [probs[8]], [probs[9]], 
+                 [probs[10]], [probs[11]], [probs[12]], [probs[13]], [probs[14]], [probs[15]], [probs[16]], [probs[17]], [probs[18]], 
+                 [probs[19]]]
+    day2_df = pd.DataFrame([[round(b, 5) for b in probs]], columns=[f'{a}' for a in range(1, 21)])
+    day2_df.to_csv(fig_dir / 'day2_dist.csv')
+    print('Output probability distribution for Part C to "day2_dist.csv"')
 
     mean2 = (np.arange(20).dot(probs))+1
     print('Expected value of students infected by day 2:', mean2)
@@ -247,6 +252,25 @@ def main():
     plt.ylabel('Mean Infections')
     plt.savefig(fig_dir / f'Flu_Pandemic_means_{eps}_weekend_{weekend_check}.png')
     plt.show()
+    
+    # What p will infect all?
+    # Simulate many episodes
+    print('Simulating different levels of p...')
+    eps2 = 1000 # Number of episodes to simulate
+    p_array = np.arange(0.02, 0.16, 0.01)
+    day_results2 = np.zeros((eps2, 63, len(p_array))) # Store number infected by each day for each episode for each p
+    p_range = np.zeros(shape=(len(p_array), 2))
+    for p2 in range(len(p_array)):
+        episodes = 0
+        np.random.seed(2 ** 23 - 1)
+        while episodes < eps2: # Each loop sims 1 episode
+            day_results2[episodes, :, p2] = episode(p_array[p2])
+            episodes += 1
+        p_range[p2, 0] = p_array[p2]
+        p_range[p2, 1] = round(len(day_results2[day_results2[:, -1, p2] == 21])/eps2 * 100, 3)
+    p_df = pd.DataFrame(p_range, columns=['p', '% Fully Infected'])
+    p_df.to_csv(fig_dir / 'p_range.csv')
+    print('Sim complete. Output results to "p_range.csv"')
 
 if __name__ == "__main__":
     main()

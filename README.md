@@ -64,3 +64,7 @@ Optionally, you may use the included Poetry Environment Files:
   * Flu_Pandemic_Fig_2 - Histogram of First Two Days of Pandemic (Theorectical)
   * Flu_Pandemic_Fig_2 - Histogram of First Two Days of Pandemic (Empirical)
   * Flu_Pandemic_means - Line Chart of Cumulative number of Mean Infections
+
+* Tables Directory - csv files generated from the Python script that were used to create Table 1 and Table 2 in the report.
+  * day2_dist.csv - The theoretical distribution of kids infected by day 2 (Table 1)
+  * p_range.csv - Percent of episodes that ended in all kids infected for simulations at differnet infection rates, p. Based on Monte Carlo simulations of 1000 episodes each. (Table 2)
